@@ -1,6 +1,7 @@
 package com.geekbrains.repositories;
 
 import com.geekbrains.entities.Ware;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -15,14 +16,17 @@ public interface WareRepository extends PagingAndSortingRepository<Ware, Long> {
             "select Max(b.ware_cost) " +
             "from Ware b" +
         ")")
-    List<Ware> findMaxPrice();
+    List<Ware> findMaxPrice(Pageable pageable);
 
-    @Query("select a from Ware a where a.ware_cost = " +
+    @Query(
+        "select a " +
+        "from Ware a " +
+        "where a.ware_cost = " +
         "(" +
             "select Min(b.ware_cost) " +
             "from Ware b" +
         ")")
-    List<Ware> findMinPrice();
+    List<Ware> findMinPrice(Pageable pageable);
 
     @Query(
         "select a " +
@@ -38,5 +42,5 @@ public interface WareRepository extends PagingAndSortingRepository<Ware, Long> {
             "from Ware b" +
         ")"
     )
-    List<Ware> findMinOrMaxPrice();
+    List<Ware> findMinOrMaxPrice(Pageable pageable);
 }
