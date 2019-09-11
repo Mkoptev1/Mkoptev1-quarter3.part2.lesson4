@@ -7,29 +7,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl {
     private ClientRepository clientRepository;
 
     @Autowired
-    public void setClientRepository(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public void setClientRepository(ClientRepository _clientRepository) {
+        this.clientRepository = _clientRepository;
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<Client> getAll() {
         return (List<Client>)clientRepository.findAll();
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public Client get(Long id) {
-        return clientRepository.findOne(id);
+    public Optional<Client> get(Long id) {
+        return clientRepository.findById(id);
     }
 
-    @Override
     @Transactional
     public void save(Client article) {
         clientRepository.save(article);

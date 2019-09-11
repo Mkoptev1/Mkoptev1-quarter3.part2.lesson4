@@ -53,30 +53,4 @@ public class Ware {
     public void setWare_cost(Long ware_cost) {
         this.ware_cost = ware_cost;
     }
-
-    @Override
-    public String toString() {
-        String result = "";
-        int clientCount = 0;
-
-        if (clientList == null) {
-            result = "Ware{" +
-                    "ware_id=" + ware_id +
-                    ", ware_name='" + ware_name +
-                    ", ware_cost=" + ware_cost +
-                    '}';
-        } else {
-            clientCount = clientList.size();
-            if (clientCount > 0) {
-                for (Client cl : clientList) {
-                    result += "  - Client [ client_id=" + cl.getClient_id() + ", client_name=" + cl.getClient_name() + " ]" + "\r\n";
-                }
-            } else {
-                result = "  - Client=[" + "none" + "]";
-            }
-
-            result = "\r\n" + "ware_id=" + ware_id + ", ware_name=" + ware_name + ", ware_cost=" + ware_cost + "\r\n" + result;
-        }
-        return result;
-    }
 }

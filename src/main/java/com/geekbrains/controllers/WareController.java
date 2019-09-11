@@ -1,16 +1,15 @@
 package com.geekbrains.controllers;
 
+import com.geekbrains.entities.Client;
 import com.geekbrains.entities.Ware;
 import com.geekbrains.services.WareServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/ware")
@@ -28,7 +27,16 @@ public class WareController {
     public String getWareList(Model model) {
         List<Ware> wareList = wareServiceImpl.getAll();
         model.addAttribute("ware", wareList);
-        return "ware-list";
+        return "warelist";
+    }
+
+    // Фильтрация товаров
+    // http://localhost:8189/app/ware/ware-list/1
+    @RequestMapping(value="/ware-list/{filter}", method=RequestMethod.GET)
+    public String filterWare(Model uiModel, @PathVariable(value="filter") Long filter_id) {
+        List<Ware> wareList = wareServiceImpl.findMaxPrice(filter_id);
+        uiModel.addAttribute("ware", wareList);
+        return "warelist";
     }
 
     // Форма добавления товара
@@ -45,7 +53,7 @@ public class WareController {
     @RequestMapping("/save-ware")
     public String saveWare(@ModelAttribute("ware") Ware ware) {
         wareServiceImpl.save(ware);
-        return "redirect:ware-list";
+        return "redirect:ware_list";
     }
 
     // Форма удаления товара
@@ -60,7 +68,7 @@ public class WareController {
     @RequestMapping("/save-del-ware")
     public String saveDelWare(@ModelAttribute("ware") Ware ware) {
         //wareService.saveWare(ware);
-        return "redirect:ware-list";
+        return "redirect:ware_list";
     }
 
     // Поиск товара по клиенту
@@ -73,7 +81,7 @@ public class WareController {
     // Результат поиска товара по клиенту
     @RequestMapping(path="/search-ware-by-client-result", method=RequestMethod.GET)
     public String searchWareResult(@RequestParam("id") long clientId, Model model) {
-        Ware ware = new Ware();
+        Optional<Ware> ware = Optional.of(new Ware());
         ware = wareServiceImpl.get(clientId);
         model.addAttribute("ware", ware);
         return "search-ware-by-client-result";

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/clients")
@@ -15,8 +16,8 @@ public class ClientsController {
     private ClientServiceImpl clientServiceImpl;
 
     @Autowired
-    public void setClientServiceImpl(ClientServiceImpl clientServiceImpl) {
-        this.clientServiceImpl = clientServiceImpl;
+    public void setClientServiceImpl(ClientServiceImpl _clientServiceImpl) {
+        this.clientServiceImpl = _clientServiceImpl;
     }
 
     // Список клиентов
@@ -70,7 +71,7 @@ public class ClientsController {
     // Результат поиска клиента по товару
     @RequestMapping(path="/search-client-by-ware-result", method=RequestMethod.GET)
     public String searchWareResult(@RequestParam("id") long clientId, Model model) {
-        Client client = new Client();
+        Optional<Client> client = Optional.of(new Client());
         client = clientServiceImpl.get(clientId);
         model.addAttribute("client", client);
         return "search-client-by-ware-result";

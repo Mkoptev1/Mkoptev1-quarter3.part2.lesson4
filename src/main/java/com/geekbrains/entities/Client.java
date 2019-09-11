@@ -44,31 +44,4 @@ public class Client {
     public void setClient_name(String client_name) {
         this.client_name = client_name;
     }
-
-    @Override
-    public String toString() {
-        String result = "";
-        int wareCount = 0;
-
-        if (wareList == null) {
-            result =
-                "Client{" +
-                "client_id=" + client_id +
-                ", client_name='" + client_name +
-                '}';
-        } else {
-            wareCount = wareList.size();
-            if (wareCount > 0) {
-                for (Ware wl : wareList) {
-                    result += "  - Ware [ ware_id=" + wl.getWare_id() + ", ware_name=" + wl.getWare_name() + ", ware_cost=" + wl.getWare_cost() + " ]" + "\r\n";
-                }
-            } else {
-                result = "  - Ware=[" + "none" + "]";
-            }
-
-            result = "\r\n" + "client_id=" + client_id + ", client_name=" + client_name + "\r\n" + result;
-        }
-
-        return result;
-    }
 }
